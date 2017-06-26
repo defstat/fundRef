@@ -81,14 +81,16 @@ class fundRefPlugin extends GenericPlugin {
 	 */
 	function addGridhandlerJs($hookName, $params) {
 		$templateMgr = $params[0];
-		$gridHandlerJs = $this->getJavaScriptURL() . DIRECTORY_SEPARATOR . 'FunderGridHandler.js';
-		$templateMgr->addJavaScript(
-			'FunderGridHandlerJs',
-			$gridHandlerJs,
-			array(
-					'contexts' => 'backend',
-				)
-		);
+		$request = $this->getRequest();
+		$gridHandlerJs = $this->getJavaScriptURL($request, false) . '/' . 'FunderGridHandler.js';
+		//$templateMgr->addJavaScript(
+		//    'FunderGridHandlerJs',
+		//    $gridHandlerJs,
+		//    array(
+		//            'contexts' => 'backend',
+		//        )
+		//);
+		$templateMgr->addJavaScript($gridHandlerJs);
 
 		return false;
 	}
@@ -135,8 +137,15 @@ class fundRefPlugin extends GenericPlugin {
 	/**
 	 * Get the JavaScript URL for this plugin.
 	 */
-	function getJavaScriptURL() {
-		return Request::getBaseUrl() . DIRECTORY_SEPARATOR . $this->getPluginPath() . DIRECTORY_SEPARATOR . 'js';
+	function getJavaScriptURL($request, $includeBaseURL = true) {
+		// return Request::getBaseUrl() . DIRECTORY_SEPARATOR . $this->getPluginPath() . DIRECTORY_SEPARATOR . 'js';
+		// return parent::getTemplatePath($inCore) . 'js/';
+		if ($includeBaseURL) {
+			return $request->getBaseUrl() . '/' .$this->getPluginPath() . '/js';
+		} else {
+			return $this->getPluginPath() . '/js';
+		}
+
 	}
 
 

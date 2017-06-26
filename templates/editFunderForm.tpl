@@ -63,7 +63,6 @@
 
 {url|assign:actionUrl router=$smarty.const.ROUTE_COMPONENT component="plugins.generic.fundRef.controllers.grid.FunderGridHandler" op="updateFunder" submissionId=$submissionId escape=false}
 <form class="pkp_form" id="funderForm" method="post" action="{$actionUrl}">
-	{csrf}
 	{if $funderId}
 		<input type="hidden" name="funderId" value="{$funderId|escape}" />
 	{/if}

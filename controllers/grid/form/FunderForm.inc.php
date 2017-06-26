@@ -41,7 +41,7 @@ class FunderForm extends Form {
 		// Add form checks
 		$this->addCheck(new FormValidator($this, 'funderNameIdentification', 'required', 'plugins.generic.fundRef.funderNameIdentificationRequired'));
 		$this->addCheck(new FormValidatorPost($this));
-		$this->addCheck(new FormValidatorCSRF($this));
+		// $this->addCheck(new FormValidatorCSRF($this));
 
 	}	
 
