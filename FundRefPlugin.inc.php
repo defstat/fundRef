@@ -43,6 +43,7 @@ class fundRefPlugin extends GenericPlugin {
 
 			HookRegistry::register('Templates::Article::Details', array($this, 'addArticleDisplay'));
 
+			HookRegistry::register('Templates::Catalog::Book::Details', array($this, 'addMonographDisplay'));
         }
 		return $success;
 	}
@@ -93,6 +94,30 @@ class fundRefPlugin extends GenericPlugin {
 		$templateMgr->addJavaScript($gridHandlerJs);
 
 		return false;
+	}
+
+	/**
+	 * Hook to 'Templates::Catalog::Book::Details and list funder information
+	 * @param $hookName string
+	 * @param $params array
+	 */
+	function addMonographDisplay($hookName, $params) {
+		$templateMgr = $params[1];
+		$output =& $params[2];
+
+		$submission = $templateMgr->get_template_vars('monograph');
+
+		$funderDao = DAORegistry::getDAO('FunderDAO');
+		$funders = $funderDao->getBySubmissionId($submission->getId());
+		$funders = $funders->toArray();
+
+		if ($funders){
+			$templateMgr->assign('funders', $funders);
+			$output .= $templateMgr->fetch($this->getTemplatePath() . 'listFunders.tpl');
+		}
+
+		return false;
+
 	}
 
 	/**
